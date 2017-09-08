@@ -1,0 +1,5 @@
+/client/node_modules/
+/.idea/
+/anagram-generator.iml
+/npm-debug.log
+/node_modules/
