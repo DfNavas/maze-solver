@@ -68,20 +68,36 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const angular = __webpack_require__(1);
-const anagramBuilder=__webpack_require__(3)
+const findPath = __webpack_require__(3)
 
-angular.module('anagramGenerator', [])
+angular.module('mazeSolver', [])
     .controller('MainCtrl', ['$scope', function ($scope) {
-
-        $scope.anagrams = [];
-        $scope.generateAnagrams = function () {
-            $scope.anagrams = anagramBuilder($scope.word)
+        var mazeString;
+        $scope.solvedMaze = [];
+        $scope.uploadFile = function (element) {
+            var fileReader = new FileReader();
+            var fileList = element.files;
+            if (fileReader && fileList && fileList.length) {
+                fileReader.readAsText(fileList[0]);
+                fileReader.onload = function () {
+                    mazeString = this.result;
+                }
+            }
+        }
+        $scope.solveMaze = function () {
+            $scope.solvedMaze = findPath(mazeString);
         };
-    }]);
+    }])
 
 angular.element(function () {
-    angular.bootstrap(document, ['anagramGenerator']);
+    angular.bootstrap(document, ['mazeSolver']);
 });
+
+
+
+
+
+
 
 /***/ }),
 /* 1 */
@@ -33991,36 +34007,12 @@ $provide.value("$locale", {
 
 const _ = __webpack_require__(4);
 
-
-function anagrams(str) {
-    if (!str.match(/^[a-zA-ZÀ-ž]*$/)) {
-        throw new Error("Input is not a word")
-    } else return _.uniq(permutator(str.split(""))).sort()
+function findPath(mazeString) {
+    var lines = mazeString.split('\n');
+    return lines;
 }
 
-function permutator(inputArr) {
-    var results = [];
-
-    function permute(arr, memo) {
-        var cur, memo = memo || [];
-
-        for (var i = 0; i < arr.length; i++) {
-            cur = arr.splice(i, 1);
-            if (arr.length === 0) {
-                results.push(memo.concat(cur).join(""));
-            }
-            permute(arr.slice(), memo.concat(cur));
-            arr.splice(i, 0, cur[0]);
-        }
-
-        return results;
-    }
-
-    return permute(inputArr);
-}
-
-
-module.exports = anagrams
+module.exports = findPath;
 
 /***/ }),
 /* 4 */

@@ -1,7 +1,7 @@
 var chai = require('chai');
 var _ = require('lodash');
 
-var anagramBuilder = require('../engines/anagram')
+var anagramBuilder = require('../engines/maze')
 
 chai.should();
 

@@ -1,15 +1,30 @@
 const angular = require('angular');
-const anagramBuilder=require('../engines/anagram')
+const findPath = require('../engines/maze')
 
-angular.module('anagramGenerator', [])
+angular.module('mazeSolver', [])
     .controller('MainCtrl', ['$scope', function ($scope) {
-
-        $scope.anagrams = [];
-        $scope.generateAnagrams = function () {
-            $scope.anagrams = anagramBuilder($scope.word)
+        var mazeString;
+        $scope.solvedMaze = [];
+        $scope.uploadFile = function (element) {
+            var fileReader = new FileReader();
+            var fileList = element.files;
+            if (fileReader && fileList && fileList.length) {
+                fileReader.readAsText(fileList[0]);
+                fileReader.onload = function () {
+                    mazeString = this.result;
+                }
+            }
+        }
+        $scope.solveMaze = function () {
+            $scope.solvedMaze = findPath(mazeString);
         };
-    }]);
+    }])
 
 angular.element(function () {
-    angular.bootstrap(document, ['anagramGenerator']);
+    angular.bootstrap(document, ['mazeSolver']);
 });
+
+
+
+
+
