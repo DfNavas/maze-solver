@@ -23,8 +23,3 @@ angular.module('mazeSolver', [])
 angular.element(function () {
     angular.bootstrap(document, ['mazeSolver']);
 });
-
-
-
-
-
